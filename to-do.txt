@@ -1,0 +1,17 @@
+Completed:
+- add combat timer system
+- make scoreboard
+- profiling system for scoreboard [combat timer, staff, etc]
+- optimize data storage by switching to MySQL
+
+in progress:
+- leveling system
+- /chatcolor
+
+to-do:
+- make custom gamemode features
+- custom shop
+- bounties
+- koths [very complicated D: maybe after release as a future project]
+
+

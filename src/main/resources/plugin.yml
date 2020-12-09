@@ -1,0 +1,6 @@
+name: KitPvP
+author: elijuh
+version: "1.0"
+main: me.elijuh.kitpvp.KitPvP
+depend: [PlaceholderAPI, WorldGuard, Vault]
+softdepend: [Core]
