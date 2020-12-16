@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.elijuh.kitpvp.gui.GUI;
 import me.elijuh.kitpvp.gui.impl.KitsGUI;
 import me.elijuh.kitpvp.gui.impl.LeaderboardGUI;
+import me.elijuh.kitpvp.gui.impl.RepairGUI;
 import me.elijuh.kitpvp.gui.impl.ShopGUI;
 
 import java.util.HashSet;
@@ -14,13 +15,14 @@ import java.util.Set;
 @Getter
 public class GUIManager {
     private final Set<GUI> GUIs = new HashSet<>();
-    private final List<Class<? extends GUI>> GUIS = ImmutableList.of(
-            KitsGUI.class,
-            ShopGUI.class,
-            LeaderboardGUI.class
-    );
 
     public GUIManager() {
+        List<Class<? extends GUI>> GUIS = ImmutableList.of(
+                KitsGUI.class,
+                LeaderboardGUI.class,
+                ShopGUI.class,
+                RepairGUI.class
+        );
         for (Class<? extends GUI> gui : GUIS) {
             try {
                 GUIs.add(gui.getConstructor().newInstance());

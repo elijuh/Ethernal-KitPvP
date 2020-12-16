@@ -3,6 +3,9 @@ package me.elijuh.kitpvp.utils;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 @UtilityClass
 public class ChatUtil {
 
@@ -57,5 +60,42 @@ public class ChatUtil {
             }
         }
         return format.toString();
+    }
+
+    public static String getLevelColor(int level) {
+        if (level < 5) return "§7";
+        if (level < 10) return "§f";
+        if (level < 20) return "§e";
+        if (level < 30) return "§a";
+        if (level < 40) return "§d";
+        if (level < 50) return "§6";
+        return "§4";
+    }
+
+    public String formatMoney(double d) {
+        NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+        format.setMaximumFractionDigits(2);
+        format.setMinimumFractionDigits(0);
+
+        if (d < 1000L) {
+            return format.format(d);
+        }
+        if (d < 1000000L) {
+            return format.format(d / 1000L) + "k";
+        }
+        if (d < 1000000000L) {
+            return format.format(d / 1000000L) + "M";
+        }
+        if (d < 1000000000000L) {
+            return format.format(d / 1000000000L) + "B";
+        }
+        if (d < 1000000000000000L) {
+            return format.format(d / 1000000000000L) + "T";
+        }
+        if (d < 1000000000000000000L) {
+            return format.format(d / 1000000000000000L) + "Q";
+        }
+
+        return String.valueOf((long) d);
     }
 }

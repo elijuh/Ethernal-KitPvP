@@ -23,17 +23,18 @@ public class MasterKit extends Kit {
     @Override
     public List<ItemStack> getItems() {
         return ImmutableList.of(
-                new ItemBuilder(Material.DIAMOND_SWORD).setName("&4&lMaster &fSword").addEnchant(Enchantment.DAMAGE_ALL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.DIAMOND_HELMET).setName("&4&lMaster &fHelmet").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.DIAMOND_CHESTPLATE).setName("&4&lMaster &fChestplate").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.DIAMOND_LEGGINGS).setName("&4&lMaster &fLeggings").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.DIAMOND_BOOTS).setName("&4&lMaster &fBoots").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+
+                new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).build(),
+                new ItemBuilder(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setAmount(20).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).setAmount(1).build(),
                 new ItemBuilder(Material.POTION).setDura(16460).build(),
                 new ItemBuilder(Material.POTION).setDura(8194).build(),
                 new ItemBuilder(Material.ARROW).setAmount(32).build(),
-                new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 2).addEnchant(Enchantment.ARROW_KNOCKBACK, 1).addEnchant(Enchantment.DURABILITY, 1).build()
+                new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1).addEnchant(Enchantment.ARROW_KNOCKBACK, 1).addEnchant(Enchantment.DURABILITY, 1).build()
         );
     }
 }

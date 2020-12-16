@@ -7,7 +7,6 @@ import me.elijuh.kitpvp.kits.Kit;
 import me.elijuh.kitpvp.utils.ChatUtil;
 import me.elijuh.kitpvp.utils.ItemBuilder;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,7 +17,6 @@ import java.util.Map;
 
 public class KitsGUI extends GUI {
     private static final Map<String, KitsGUI> instances = new HashMap<>();
-    private static final ItemStack filler = new ItemBuilder(Material.STAINED_GLASS_PANE).setDura(15).setName(" ").build();
 
     public KitsGUI() {
         super("kits", 6, "&6Kits");
@@ -28,7 +26,7 @@ public class KitsGUI extends GUI {
     public void setItems(Player p) {
         getInventory().clear();
         for (int i = 0; i < getInventory().getSize(); i++) {
-            getInventory().setItem(i, filler);
+            getInventory().setItem(i, GUI.FILLER);
         }
         getInventory().setItem(13, getKitItem(KitPvP.getInstance().getKitManager().getKit("default"), p));
         getInventory().setItem(29, getKitItem(KitPvP.getInstance().getKitManager().getKit("knight"), p));
@@ -50,7 +48,7 @@ public class KitsGUI extends GUI {
         if (e.getView().getTitle().equals(getInventory().getTitle())) {
             if (e.getCurrentItem() != null) {
                 ItemStack item = e.getCurrentItem();
-                if (!item.equals(filler)) {
+                if (!item.equals(GUI.FILLER)) {
                     if (!item.hasItemMeta()) return;
                     if (!item.getItemMeta().hasDisplayName()) return;
 

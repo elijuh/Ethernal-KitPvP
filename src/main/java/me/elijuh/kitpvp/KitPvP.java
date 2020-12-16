@@ -55,13 +55,9 @@ public class KitPvP extends JavaPlugin {
         }
 
         scoreboardRefresh.runTaskTimerAsynchronously(this, 20L, 20L);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(KitPvP.getInstance(), ()-> {
-            for (User user : userManager.getUsers()) {
-                if (user.getCombatTimer().isTagged()) {
-                    user.getCombatTimer().run();
-                }
-            }
-        }, 20L, 20L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(KitPvP.getInstance(), ()->
+                userManager.getUsers().stream().filter(user -> user.getCombatTimer().isTagged())
+                        .forEach(user -> user.getCombatTimer().run()), 20L, 20L);
 
         new KitCommand();
         new ShopCommand();
@@ -83,7 +79,6 @@ public class KitPvP extends JavaPlugin {
         guiManager = null;
         scoreboardRefresh = null;
         prefix = null;
-
         if (userManager != null) {
             for (User user : userManager.getUsers()) {
                 if (user.getScoreboard().isEnabled()) {

@@ -18,7 +18,7 @@ public class LevelCommand extends SpigotCommand {
     }
     @Override
     public List<String> onTabComplete(Player p, String[] args) {
-        return ImmutableList.of();
+        return null;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class LevelCommand extends SpigotCommand {
         int needed = MathUtil.getNeededExp(level) - exp;
 
         p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color(
-                (target.getName().equals(p.getName()) ? "&6" + target.getName() + " &7currently has &e" : "&7You currently have &e") + level
+                (target.getName().equals(p.getName()) ? "&7You currently have &e" : "&6" + target.getName() + " &7currently has &e") + level
                         + (level == 1 ? " &7level" : " &7levels") + " &8(&b" + exp + "/" + MathUtil.getNeededExp(level)
                         + " &7Until level " + (level + 1) + "&8)"));
     }

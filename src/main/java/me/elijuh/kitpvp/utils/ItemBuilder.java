@@ -49,6 +49,8 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(String line) {
+        if (line.isEmpty()) return this;
+
         List<String> lore = this.meta.hasLore() ? this.meta.getLore() : new ArrayList<>();
         lore.add(ChatUtil.color("&r" + line));
         this.meta.setLore(lore);

@@ -58,9 +58,8 @@ public class LeaderboardGUI extends GUI {
 
     @Override
     public void setItems(Player p) {
-        ItemStack filler = new ItemBuilder(Material.STAINED_GLASS_PANE).setDura(15).setName(" ").build();
         for (int i = 0; i < getInventory().getSize(); i++) {
-            getInventory().setItem(i, filler);
+            getInventory().setItem(i, GUI.FILLER);
         }
         getInventory().setItem(11, getItem("kills"));
         getInventory().setItem(13, getItem("deaths"));

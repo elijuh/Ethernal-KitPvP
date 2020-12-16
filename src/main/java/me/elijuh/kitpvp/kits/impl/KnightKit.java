@@ -23,11 +23,11 @@ public class KnightKit extends Kit {
     @Override
     public List<ItemStack> getItems() {
         return ImmutableList.of(
-                new ItemBuilder(Material.DIAMOND_SWORD).setName("&9&lKnight &fSword").addEnchant(Enchantment.DAMAGE_ALL, 1).build(),
-                new ItemBuilder(Material.DIAMOND_HELMET).setName("&9&lKnight &fHelmet").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(),
-                new ItemBuilder(Material.DIAMOND_CHESTPLATE).setName("&9&lKnight &fChestplate").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(),
-                new ItemBuilder(Material.DIAMOND_LEGGINGS).setName("&9&lKnight &fLeggings").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(),
-                new ItemBuilder(Material.DIAMOND_BOOTS).setName("&9&lKnight &fBoots").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(),
+                new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).build(),
+                new ItemBuilder(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setAmount(15).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).setAmount(1).build(),
                 new ItemBuilder(Material.POTION).setDura(8194).build(),

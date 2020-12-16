@@ -30,7 +30,6 @@ public class ShopGUI extends GUI {
     @Override
     public void setItems(Player p) {
         getInventory().clear();
-        ItemStack filler = new ItemBuilder(Material.STAINED_GLASS_PANE).setDura(15).setName(" ").build();
         int itemIndex = 0;
         for (int i = 0; i < getInventory().getSize(); i++) {
             if (i % 9 != 8 && i % 9 != 0 && i > 9 && i < 44) {
@@ -39,7 +38,7 @@ public class ShopGUI extends GUI {
                     itemIndex++;
                 }
             } else {
-                getInventory().setItem(i, filler);
+                getInventory().setItem(i, GUI.FILLER);
             }
         }
         getInventory().setItem(49, EXIT);

@@ -29,10 +29,9 @@ private static final Connection connection = KitPvP.getInstance().getDatabaseMan
 
     public void setStat(String uuid, String stat, int value) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE userdata SET ? = ? WHERE UUID = ?");
-            statement.setString(1, stat);
-            statement.setString(2, String.valueOf(value));
-            statement.setString(3, uuid);
+            PreparedStatement statement = connection.prepareStatement("UPDATE userdata SET " + stat + " = ? WHERE UUID = ?");
+            statement.setString(1, String.valueOf(value));
+            statement.setString(2, uuid);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {

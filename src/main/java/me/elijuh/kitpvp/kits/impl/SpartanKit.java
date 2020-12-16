@@ -23,11 +23,11 @@ public class SpartanKit extends Kit {
     @Override
     public List<ItemStack> getItems() {
         return ImmutableList.of(
-                new ItemBuilder(Material.DIAMOND_SWORD).setName("&4&lSpartan &rSword").addEnchant(Enchantment.DAMAGE_ALL, 4).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_HELMET).setName("&4&lSpartan &rHelmet").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_CHESTPLATE).setName("&4&lSpartan &rChestplate").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_LEGGINGS).setName("&4&lSpartan &rLeggings").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_BOOTS).setName("&4&lSpartan &rBoots").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 2).build(),
+                new ItemBuilder(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2).build(),
+                new ItemBuilder(Material.DIAMOND_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).addEnchant(Enchantment.DURABILITY, 1).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setAmount(45).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).setAmount(1).build(),
                 new ItemBuilder(Material.POTION).setDura(16428).build(),

@@ -29,10 +29,6 @@ public abstract class SpigotCommand extends Command {
         this(name, Lists.newArrayList(aliases), null);
     }
 
-    public SpigotCommand(String name, List<String> aliases) {
-        this(name, aliases, null);
-    }
-
     public SpigotCommand(String name, List<String> aliases, String permission) {
         super(name);
         setAliases(aliases);
@@ -80,12 +76,16 @@ public abstract class SpigotCommand extends Command {
                 }
             }
 
-            List<String> tabCompletion = onTabComplete((Player)sender, args);
+            Player p = (Player) sender;
+
+            List<String> tabCompletion = onTabComplete(p, args);
             if (tabCompletion == null) {
                 if (args.length == 0) {
                     final List<String> list = Lists.newArrayList();
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        list.add(p.getName());
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        if (p.canSee(all)) {
+                            list.add(all.getName());
+                        }
                     }
                     return list;
                 }
@@ -93,9 +93,9 @@ public abstract class SpigotCommand extends Command {
                     final String lastWord = args[args.length - 1];
                     final List<String> list = Lists.newArrayList();
 
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (StringUtil.startsWithIgnoreCase(p.getName(), lastWord)) {
-                            list.add(p.getName());
+                    for (Player all : Bukkit.getOnlinePlayers()) {
+                        if (StringUtil.startsWithIgnoreCase(p.getName(), lastWord) && p.canSee(all)) {
+                            list.add(all.getName());
                         }
                     }
 

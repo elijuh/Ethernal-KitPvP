@@ -10,11 +10,13 @@ import me.elijuh.kitpvp.utils.StaffUtil;
 import me.elijuh.kitpvp.utils.StatsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -23,9 +25,7 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 import java.util.Arrays;
 
@@ -123,6 +123,13 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void on(AsyncPlayerChatEvent e) {
+        int level = StatsUtil.getStat(e.getPlayer().getUniqueId().toString(), "level");
+        String color = ChatUtil.getLevelColor(level);
+        e.setFormat(ChatUtil.color( "&7[" + color + level + "&7]&r ") + e.getFormat());
+    }
+
     @EventHandler
     public void on(FoodLevelChangeEvent e) {
         e.setCancelled(true);
@@ -186,5 +193,15 @@ public class PlayerListener implements Listener {
         killer.getUserdata().handleKill();
         killed.getUserdata().handleDeath();
         killed.getCombatTimer().end();
+    }
+
+    @EventHandler
+    public void on(PlayerInteractEvent e) {
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (e.getClickedBlock().getType() == Material.ANVIL) {
+                e.setCancelled(true);
+                plugin.getGuiManager().getGUI("repair").open(e.getPlayer());
+            }
+        }
     }
 }

@@ -10,13 +10,18 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatsCommand extends SpigotCommand {
     private final KitPvP plugin = KitPvP.getInstance();
+    private final List<String> SUBCOMMANDS = ImmutableList.of(
+            "setlevel",
+            "setkills",
+            "setdeaths",
+            "setstreak",
+            "reset"
+    );
 
     public StatsCommand() {
         super("stats");
@@ -27,32 +32,23 @@ public class StatsCommand extends SpigotCommand {
         List<String> completion = new ArrayList<>();
         switch (args.length) {
             case 1: {
-                for (Player all : Bukkit.getOnlinePlayers()) {
-                    if (StringUtil.startsWithIgnoreCase(all.getName(), args[0])) {
-                        completion.add(all.getName());
-                    }
-                }
-                return completion;
+                return null;
             }
             case 2: {
                 if (p.hasPermission("kitpvp.stats.edit")) {
-                    for (String s : ImmutableList.of(
-                            "setlevel",
-                            "setkills",
-                            "setdeaths",
-                            "setstreak",
-                            "reset"
-                    )) {
+                    for (String s : SUBCOMMANDS) {
                         if (StringUtil.startsWithIgnoreCase(s, args[1])) {
                             completion.add(s);
                         }
                     }
                 }
+                break;
             }
             default: {
                 return ImmutableList.of();
             }
         }
+        return completion;
     }
 
     @Override
@@ -73,35 +69,20 @@ public class StatsCommand extends SpigotCommand {
             }
             switch (args[1].toLowerCase()) {
                 case "reset": {
-                    if (plugin.getUserManager().dataExists(target)) {
-                        try {
-                            PreparedStatement statement = plugin.getDatabaseManager().getConnection()
-                                    .prepareStatement("UPDATE userdata SET level = 0, kills = 0, deaths = 0, streak = 0 WHERE UUID=?");
-                            statement.setString(1, target.getUniqueId().toString());
-                            statement.executeUpdate();
-                            statement.close();
-                            p.sendMessage(ChatUtil.color("&aStats for " + target.getName() + " were reset."));
-                        } catch (SQLException e) {
-                            p.sendMessage(ChatUtil.color("&cError occured while trying to reset data profile."));
-                        }
-                    } else {
-                        p.sendMessage(ChatUtil.color("&cThat player does not have a profile."));
-                    }
+                    StatsUtil.setStat(target.getUniqueId().toString(), "level", 0);
+                    StatsUtil.setStat(target.getUniqueId().toString(), "exp", 0);
+                    StatsUtil.setStat(target.getUniqueId().toString(), "kills", 0);
+                    StatsUtil.setStat(target.getUniqueId().toString(), "deaths", 0);
+                    StatsUtil.setStat(target.getUniqueId().toString(), "streak", 0);
+                    p.sendMessage(ChatUtil.color("&aSuccessfully reset stats for " + target.getName() + "."));
                     break;
                 }
                 case "setlevel": {
                     if (args.length > 2) {
                         try {
                             int level = Integer.parseInt(args[2]);
-                            PreparedStatement statement = plugin.getDatabaseManager().getConnection()
-                                    .prepareStatement("UPDATE userdata SET level=? WHERE UUID=?");
-                            statement.setString(1, String.valueOf(level));
-                            statement.setString(2, target.getUniqueId().toString());
-                            statement.executeUpdate();
-                            statement.close();
-                            p.sendMessage(ChatUtil.color("&aStats for " + target.getName() + " were updated."));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                            StatsUtil.setStat(target.getUniqueId().toString(), "level", level);
+                            p.sendMessage(ChatUtil.color("&aSuccessfully updated stats for " + target.getName() + "."));
                         } catch (NumberFormatException e) {
                             p.sendMessage(ChatUtil.color("&cPlease provide a valid integer!"));
                         }
@@ -114,15 +95,8 @@ public class StatsCommand extends SpigotCommand {
                     if (args.length > 2) {
                         try {
                             int kills = Integer.parseInt(args[2]);
-                            PreparedStatement statement = plugin.getDatabaseManager().getConnection()
-                                    .prepareStatement("UPDATE userdata SET kills=? WHERE UUID=?");
-                            statement.setString(1, String.valueOf(kills));
-                            statement.setString(2, target.getUniqueId().toString());
-                            statement.executeUpdate();
-                            statement.close();
-                            p.sendMessage(ChatUtil.color("&aStats for " + target.getName() + " were updated."));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                            StatsUtil.setStat(target.getUniqueId().toString(), "kills", kills);
+                            p.sendMessage(ChatUtil.color("&aSuccessfully updated stats for " + target.getName() + "."));
                         } catch (NumberFormatException e) {
                             p.sendMessage(ChatUtil.color("&cPlease provide a valid integer!"));
                         }
@@ -135,15 +109,8 @@ public class StatsCommand extends SpigotCommand {
                     if (args.length > 2) {
                         try {
                             int deaths = Integer.parseInt(args[2]);
-                            PreparedStatement statement = plugin.getDatabaseManager().getConnection()
-                                    .prepareStatement("UPDATE userdata SET deaths=? WHERE UUID=?");
-                            statement.setString(1, String.valueOf(deaths));
-                            statement.setString(2, target.getUniqueId().toString());
-                            statement.executeUpdate();
-                            statement.close();
-                            p.sendMessage(ChatUtil.color("&aStats for " + target.getName() + " were updated."));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                            StatsUtil.setStat(target.getUniqueId().toString(), "deaths", deaths);
+                            p.sendMessage(ChatUtil.color("&aSuccessfully updated stats for " + target.getName() + "."));
                         } catch (NumberFormatException e) {
                             p.sendMessage(ChatUtil.color("&cPlease provide a valid integer!"));
                         }
@@ -156,15 +123,8 @@ public class StatsCommand extends SpigotCommand {
                     if (args.length > 2) {
                         try {
                             int streak = Integer.parseInt(args[2]);
-                            PreparedStatement statement = plugin.getDatabaseManager().getConnection()
-                                    .prepareStatement("UPDATE userdata SET streak=? WHERE UUID=?");
-                            statement.setString(1, String.valueOf(streak));
-                            statement.setString(2, target.getUniqueId().toString());
-                            statement.executeUpdate();
-                            statement.close();
-                            p.sendMessage(ChatUtil.color("&aStats for " + target.getName() + " were updated."));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                            StatsUtil.setStat(target.getUniqueId().toString(), "streak", streak);
+                            p.sendMessage(ChatUtil.color("&aSuccessfully updated stats for " + target.getName() + "."));
                         } catch (NumberFormatException e) {
                             p.sendMessage(ChatUtil.color("&cPlease provide a valid integer!"));
                         }

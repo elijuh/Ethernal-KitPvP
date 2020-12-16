@@ -1,18 +1,20 @@
 package me.elijuh.kitpvp.manager;
 
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.Getter;
 import me.elijuh.kitpvp.KitPvP;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@Getter
 public class DatabaseManager {
-    private final Connection connection;
-    private final HikariDataSource dataSource;
+    private Connection connection;
+    private HikariDataSource dataSource;
 
     public DatabaseManager() {
+        init();
+    }
+
+    private void init() {
         Connection c;
         String host = KitPvP.getInstance().getConfig().getString("mysql.host");
         String database = KitPvP.getInstance().getConfig().getString("mysql.database");
@@ -36,6 +38,13 @@ public class DatabaseManager {
         connection = c;
     }
 
+    public Connection getConnection() {
+        if (!isConnected()) {
+            init();
+        }
+        return connection;
+    }
+
     public boolean isConnected() {
         if (connection != null) {
             try {
@@ -44,7 +53,7 @@ public class DatabaseManager {
                 return false;
             }
         }
-        return true;
+        return false;
     }
 
     public void disconnect() {

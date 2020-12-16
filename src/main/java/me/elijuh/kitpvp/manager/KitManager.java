@@ -12,16 +12,16 @@ import java.util.Set;
 @Getter
 public class KitManager {
     private final Set<Kit> kits = new HashSet<>();
-    private final List<Class<? extends Kit>> KITS = ImmutableList.of(
-            DefaultKit.class,
-            KnightKit.class,
-            MasterKit.class,
-            KingKit.class,
-            LegendKit.class,
-            SpartanKit.class
-    );
 
     public KitManager() {
+        List<Class<? extends Kit>> KITS = ImmutableList.of(
+                DefaultKit.class,
+                KnightKit.class,
+                MasterKit.class,
+                KingKit.class,
+                LegendKit.class,
+                SpartanKit.class
+        );
         for (Class<? extends Kit> kit : KITS) {
             try {
                 kits.add(kit.getConstructor().newInstance());

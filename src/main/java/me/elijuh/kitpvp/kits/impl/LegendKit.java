@@ -23,11 +23,11 @@ public class LegendKit extends Kit {
     @Override
     public List<ItemStack> getItems() {
         return ImmutableList.of(
-                new ItemBuilder(Material.DIAMOND_SWORD).setName("&a&lLegend &fSword").addEnchant(Enchantment.DAMAGE_ALL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.DIAMOND_HELMET).setName("&a&lLegend &fHelmet").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_CHESTPLATE).setName("&a&lLegend &fChestplate").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_LEGGINGS).setName("&a&lLegend &fLeggings").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 2).build(),
-                new ItemBuilder(Material.DIAMOND_BOOTS).setName("&a&lLegend &fBoots").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 2).build(),
+                new ItemBuilder(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).build(),
+                new ItemBuilder(Material.DIAMOND_HELMET).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.DIAMOND_BOOTS).addEnchant(Enchantment.DURABILITY, 1).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setAmount(30).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).setAmount(1).build(),
                 new ItemBuilder(Material.POTION).setDura(16428).build(),

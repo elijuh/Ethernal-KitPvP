@@ -24,7 +24,6 @@ public class PreviewGUI extends GUI {
     @Override
     public void setItems(Player p) {
         getInventory().clear();
-        ItemStack filler = new ItemBuilder(Material.STAINED_GLASS_PANE).setDura(15).setName(" ").build();
         int itemIndex = 0;
         for (int i = 0; i < getInventory().getSize(); i++) {
             List<ItemStack> items = kit.getItems();
@@ -34,7 +33,7 @@ public class PreviewGUI extends GUI {
                     itemIndex++;
                 }
             } else {
-                getInventory().setItem(i, filler);
+                getInventory().setItem(i, GUI.FILLER);
             }
         }
         getInventory().setItem(49, BACK);
