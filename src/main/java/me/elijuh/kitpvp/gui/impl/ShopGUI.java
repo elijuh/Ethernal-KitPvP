@@ -2,7 +2,6 @@ package me.elijuh.kitpvp.gui.impl;
 
 import com.google.common.collect.Lists;
 import me.elijuh.kitpvp.data.shop.ShopItem;
-import me.elijuh.kitpvp.data.shop.ShopType;
 import me.elijuh.kitpvp.gui.GUI;
 import me.elijuh.kitpvp.utils.ItemBuilder;
 import org.bukkit.Material;
@@ -20,11 +19,24 @@ public class ShopGUI extends GUI {
     private static final Map<String, ShopGUI> instances = new HashMap<>();
     private static final ItemStack EXIT = new ItemBuilder(Material.NETHER_STAR).setName("&6» &eExit &6«").build();
     private static final List<ShopItem> shopItems = Lists.newArrayList(
-                new ShopItem(new ItemBuilder(Material.DIAMOND_SWORD).build(), 26.92, ShopType.ITEM)
+                new ShopItem(new ItemBuilder(Material.GOLDEN_APPLE).setAmount(16).build(), 6.99),
+                new ShopItem(new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).build(), 749.99),
+                new ShopItem(new ItemBuilder(Material.FISHING_ROD).build(), 59.99),
+                new ShopItem(new ItemBuilder(Material.POTION).setDura(8194).build(), 14.99, "&fSpeed I Potion"),
+                new ShopItem(new ItemBuilder(Material.POTION).setDura(8226).build(), 24.99, "&fSpeed II Potion"),
+                new ShopItem(new ItemBuilder(Material.POTION).setDura(16460).build(), 129.99, "&fDamage I Potion"),
+                new ShopItem(new ItemBuilder(Material.POTION).setDura(16428).build(), 349.99, "&fDamage II Potion"),
+                new ShopItem(new ItemBuilder(Material.DIAMOND_SWORD).build(), 19.99),
+                new ShopItem(new ItemBuilder(Material.DIAMOND_HELMET).build(), 29.99),
+                new ShopItem(new ItemBuilder(Material.DIAMOND_CHESTPLATE).build(), 29.99),
+                new ShopItem(new ItemBuilder(Material.DIAMOND_LEGGINGS).build(), 29.99),
+                new ShopItem(new ItemBuilder(Material.DIAMOND_BOOTS).build(), 29.99),
+                new ShopItem(new ItemBuilder(Material.BOW).build(), 4.99),
+                new ShopItem(new ItemBuilder(Material.ARROW).setAmount(32).build(), 9.99)
             );
 
     public ShopGUI() {
-        super("shop", 6, "&6Shop");
+        super("shop", 6, "&4Shop");
     }
 
     @Override
@@ -56,12 +68,18 @@ public class ShopGUI extends GUI {
         if (e.getView().getTitle().equals(getInventory().getTitle())) {
             if (e.getCurrentItem() != null) {
                 ItemStack item = e.getCurrentItem().clone();
+
+                if (!item.hasItemMeta()) return;
+
                 if (item.getItemMeta().hasLore()) {
                     trimLore(item);
                     ShopItem shopItem = getShopItem(item);
                     if (shopItem != null && e.getAction().equals(InventoryAction.PICKUP_ALL)) {
-                        shopItem.sell((Player)e.getWhoClicked());
+                        shopItem.sell((Player) e.getWhoClicked());
                     }
+                }
+                if (e.getCurrentItem().isSimilar(EXIT)) {
+                    e.getView().close();
                 }
                 e.setCancelled(true);
             }

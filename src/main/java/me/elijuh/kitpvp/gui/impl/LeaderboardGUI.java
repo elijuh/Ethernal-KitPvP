@@ -28,7 +28,7 @@ public class LeaderboardGUI extends GUI {
     private final List<Pair<String, Integer>> deaths = new ArrayList<>();
     private final List<Pair<String, Integer>> streak = new ArrayList<>();
     public LeaderboardGUI() {
-        super("leaderboard", 3, "&6Leaderboards");
+        super("leaderboard", 3, "&4Leaderboards");
 
         Bukkit.getScheduler().runTaskTimer(KitPvP.getInstance(), ()-> {
             List<String> categories = ImmutableList.of("kills", "deaths", "streak");

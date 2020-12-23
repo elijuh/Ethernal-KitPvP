@@ -1,6 +1,5 @@
 package me.elijuh.kitpvp.commands.impl;
 
-import com.google.common.collect.ImmutableList;
 import me.elijuh.kitpvp.KitPvP;
 import me.elijuh.kitpvp.commands.SpigotCommand;
 import me.elijuh.kitpvp.utils.ChatUtil;

@@ -17,7 +17,7 @@ public class PreviewGUI extends GUI {
     private final Kit kit;
 
     public PreviewGUI(Kit kit) {
-        super("preview", 6, "&6Preview: " + kit.getColor() + ChatColor.BOLD + ChatUtil.capitalize(kit.getName()) + " &fKit");
+        super("preview", 6, "&4Preview: " + kit.getColor() + ChatColor.BOLD + ChatUtil.capitalize(kit.getName()) + " &fKit");
         this.kit = kit;
     }
 

@@ -24,6 +24,7 @@ public class Userdata {
     private final DatabaseManager databaseManager;
     private final CustomConfig customConfig;
     private final User user;
+    private long lastPearl;
     private List<Material> pickupFilter;
     private PreviewGUI previewGUI;
     private KitsGUI kitsGUI;

@@ -13,12 +13,19 @@ import org.bukkit.inventory.ItemStack;
 public class ShopItem {
     private final ItemStack item;
     private final double price;
-    private final ShopType type;
+    private final String display;
 
-    public ShopItem(ItemStack item, double price, ShopType type) {
+    public ShopItem(ItemStack item, double price) {
+        this(item, price, null);
+    }
+
+    public ShopItem(ItemStack item, double price, String display) {
         this.item = item;
         this.price = MathUtil.roundTo(price, 2);
-        this.type = type;
+        if (display != null) {
+            display = ChatUtil.color(display);
+        }
+        this.display = display;
     }
 
     public void sell(Player player) {
@@ -27,9 +34,9 @@ public class ShopItem {
                 KitPvP.getInstance().getEconomy().withdrawPlayer(player, price);
                 player.getInventory().addItem(item);
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                player.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&aYou have purchased &r" +
-                        (item.getItemMeta().getDisplayName() == null ? ChatUtil.capitalize(item.getType().toString().toLowerCase().replace("_", " "))
-                                : item.getItemMeta().getDisplayName()) + "&a!"));
+                player.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&7You have purchased &r" +
+                        (display == null ? ChatUtil.capitalize(item.getType().toString().toLowerCase().replace("_", " "))
+                                : display) + " &7for &a$" + getPrice() + "&7!"));
             } else {
                 player.sendMessage(ChatUtil.color("&cYou can't afford this item!"));
             }

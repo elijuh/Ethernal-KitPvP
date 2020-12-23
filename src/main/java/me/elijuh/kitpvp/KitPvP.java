@@ -44,7 +44,7 @@ public class KitPvP extends JavaPlugin {
         userManager = new UserManager();
         scoreboardRefresh = new ScoreboardRefresh();
         expansion = new KitPvPExansion();
-        prefix = ChatUtil.color("&6&lKitPvP &8» &7");
+        prefix = ChatUtil.color("&4&lKitPvP &8⏐ &7");
 
         expansion.register();
 

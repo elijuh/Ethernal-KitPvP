@@ -44,6 +44,9 @@ public class KitPvPExansion extends PlaceholderExpansion {
             case "combattag": {
                 return String.valueOf(user.getCombatTimer().getCount());
             }
+            case "pearl": {
+                return String.valueOf(Math.round(15.0 - (System.currentTimeMillis() - user.getUserdata().getLastPearl()) / 1000.0));
+            }
             default: {
                 return "null";
             }

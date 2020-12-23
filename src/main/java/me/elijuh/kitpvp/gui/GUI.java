@@ -28,5 +28,5 @@ public abstract class GUI {
 
     public abstract void setItems(Player p);
 
-    public abstract void handle(InventoryClickEvent e);
+    public abstract void handle(InventoryClickEvent event);
 }

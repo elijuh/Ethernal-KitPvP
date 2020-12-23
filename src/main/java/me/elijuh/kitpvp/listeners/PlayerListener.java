@@ -4,15 +4,13 @@ import me.elijuh.kitpvp.KitPvP;
 import me.elijuh.kitpvp.data.User;
 import me.elijuh.kitpvp.data.Userdata;
 import me.elijuh.kitpvp.gui.GUI;
-import me.elijuh.kitpvp.utils.ChatUtil;
-import me.elijuh.kitpvp.utils.PlayerUtil;
-import me.elijuh.kitpvp.utils.StaffUtil;
-import me.elijuh.kitpvp.utils.StatsUtil;
+import me.elijuh.kitpvp.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -25,6 +23,7 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 
 import java.util.Arrays;
@@ -41,12 +40,14 @@ public class PlayerListener implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
+
     @EventHandler
-    public void on(InventoryClickEvent e) {
+    public void handle(InventoryClickEvent e) {
         for (GUI gui : plugin.getGuiManager().getGUIs()) {
             gui.handle(e);
         }
-        User user = plugin.getUserManager().getUser((Player)e.getWhoClicked());
+
+        User user = plugin.getUserManager().getUser((Player) e.getWhoClicked());
         if (user != null) {
             if (user.getUserdata().getPreviewGUI() != null) {
                 user.getUserdata().getPreviewGUI().handle(e);
@@ -55,8 +56,15 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void on(InventoryDragEvent e) {
+        if (e.getView().getTitle().equals(ChatUtil.color("&4Repair"))) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void on(InventoryCloseEvent e) {
-        if (e.getView().getTitle().startsWith(ChatUtil.color("&6Preview:"))) {
+        if (e.getView().getTitle().startsWith(ChatUtil.color("&4Preview:"))) {
             Bukkit.getScheduler().runTask(plugin, ()-> ((Player) e.getPlayer()).performCommand("kits"));
         }
     }
@@ -186,8 +194,8 @@ public class PlayerListener implements Listener {
         int streak = StatsUtil.getStat(e.getEntity().getUniqueId().toString(), "streak");
 
         if (streak > 20) {
-            Bukkit.broadcastMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&6" + killed.getPlayer().getName() + "'s &7Killstreak of &e" +
-                    streak + " &7has been broken by &6" + killer.getPlayer().getName()) + "&7!");
+            Bukkit.broadcastMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&c" + killed.getPlayer().getName() + "'s &7Killstreak of &f" +
+                    streak + " &7has been broken by &c" + killer.getPlayer().getName()) + "&7!");
         }
 
         killer.getUserdata().handleKill();
@@ -201,6 +209,19 @@ public class PlayerListener implements Listener {
             if (e.getClickedBlock().getType() == Material.ANVIL) {
                 e.setCancelled(true);
                 plugin.getGuiManager().getGUI("repair").open(e.getPlayer());
+            }
+        }
+        if (e.getAction().toString().contains("RIGHT")) {
+            if (e.getPlayer().getItemInHand().getType().equals(Material.ENDER_PEARL)) {
+                User user = plugin.getUserManager().getUser(e.getPlayer());
+                if (System.currentTimeMillis() - user.getUserdata().getLastPearl() < 15000) {
+                    user.sendMessage(plugin.getPrefix() + ChatUtil.color("&cYou are currently on pearl cooldown for "
+                            + MathUtil.roundTo((15.0 - (System.currentTimeMillis() - user.getUserdata().getLastPearl()) / 1000.0), 1) + "s!"));
+                    e.setUseItemInHand(Event.Result.DENY);
+                } else {
+                    user.getUserdata().setLastPearl(System.currentTimeMillis());
+                    user.getScoreboard().refresh();
+                }
             }
         }
     }

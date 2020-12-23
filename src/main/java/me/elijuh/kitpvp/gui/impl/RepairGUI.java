@@ -21,7 +21,7 @@ public class RepairGUI extends GUI {
     private ItemStack slot;
 
     public RepairGUI() {
-        super("repair", 6, "&6Repair");
+        super("repair", 5, "&4Repair");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class RepairGUI extends GUI {
                     }
                     e.setCancelled(true);
                 }
-                Bukkit.getScheduler().runTask(KitPvP.getInstance(), ()-> {
+                Bukkit.getScheduler().runTask(KitPvP.getInstance(), () -> {
                     slot = e.getInventory().getItem(13);
                     e.getInventory().setItem(31, getRepairItem());
                 });
@@ -81,7 +81,7 @@ public class RepairGUI extends GUI {
     }
 
     public double getPrice(ItemStack item) {
-        return MathUtil.roundTo(item.getDurability() * (item.getType().toString().startsWith("IRON_") ? 0.52 : 0.89), 0);
+        return MathUtil.roundTo(item.getDurability() * (item.getType().toString().startsWith("IRON_") ? 0.42 : 0.64), 0);
     }
 
     public ItemStack getRepairItem() {

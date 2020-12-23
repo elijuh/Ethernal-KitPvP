@@ -19,7 +19,7 @@ public class KitsGUI extends GUI {
     private static final Map<String, KitsGUI> instances = new HashMap<>();
 
     public KitsGUI() {
-        super("kits", 6, "&6Kits");
+        super("kits", 6, "&4Kits");
     }
 
     @Override
