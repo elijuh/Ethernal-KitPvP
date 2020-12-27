@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Getter
 public class CustomConfig {
-    private static final KitPvP plugin = KitPvP.getInstance();
+    private static final KitPvP plugin = KitPvP.i();
     private File file;
     private YamlConfiguration configuration;
 

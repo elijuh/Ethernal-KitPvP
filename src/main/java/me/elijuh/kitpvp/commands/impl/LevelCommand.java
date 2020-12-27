@@ -35,7 +35,7 @@ public class LevelCommand extends SpigotCommand {
         int exp = StatsUtil.getStat(target.getUniqueId().toString(), "exp");
         int needed = MathUtil.getNeededExp(level) - exp;
 
-        p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color(
+        p.sendMessage(KitPvP.i().getPrefix() + ChatUtil.color(
                 (target.getName().equals(p.getName()) ? "&7You currently have &e" : "&6" + target.getName() + " &7currently has &e") + level
                         + (level == 1 ? " &7level" : " &7levels") + " &8(&b" + exp + "/" + MathUtil.getNeededExp(level)
                         + " &7Until level " + (level + 1) + "&8)"));

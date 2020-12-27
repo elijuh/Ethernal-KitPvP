@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 @UtilityClass
 public class StatsUtil {
-private static final Connection connection = KitPvP.getInstance().getDatabaseManager().getConnection();
+private static final Connection connection = KitPvP.i().getDatabaseManager().getConnection();
 
     public int getStat(String uuid, String stat) {
         try {

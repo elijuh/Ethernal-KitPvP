@@ -24,10 +24,10 @@ public class KingKit extends Kit {
     public List<ItemStack> getItems() {
         return ImmutableList.of(
                 new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2).build(),
-                new ItemBuilder(Material.IRON_HELMET).setName("&2&lKing &fHelmet").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.IRON_CHESTPLATE).setName("&2&lKing &fChestplate").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.IRON_LEGGINGS).setName("&2&lKing &fLeggings").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.IRON_BOOTS).setName("&2&lKing &fBoots").addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setAmount(25).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).setAmount(1).build(),
                 new ItemBuilder(Material.POTION).setDura(16460).build(),

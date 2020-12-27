@@ -24,7 +24,7 @@ public class KitPvPExansion extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player p, String params) {
-        User user = KitPvP.getInstance().getUserManager().getUser(p);
+        User user = KitPvP.i().getUserManager().getUser(p);
         switch (params.toLowerCase()) {
             case "level": {
                 return String.valueOf(StatsUtil.getStat(p.getUniqueId().toString(), "level"));
@@ -42,10 +42,11 @@ public class KitPvPExansion extends PlaceholderExpansion {
                 return String.valueOf(StatsUtil.getStat(p.getUniqueId().toString(), "streak"));
             }
             case "combattag": {
-                return String.valueOf(user.getCombatTimer().getCount());
+                return String.valueOf(user.getCombatTimer().getCount() / 10D);
             }
             case "pearl": {
-                return String.valueOf(Math.round(15.0 - (System.currentTimeMillis() - user.getUserdata().getLastPearl()) / 1000.0));
+                long l = Math.round(150D - (System.currentTimeMillis() - user.getUserdata().getLastPearl()) / 100D);
+                return String.valueOf(l / 10.0);
             }
             default: {
                 return "null";

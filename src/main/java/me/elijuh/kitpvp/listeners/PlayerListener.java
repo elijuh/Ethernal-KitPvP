@@ -8,6 +8,7 @@ import me.elijuh.kitpvp.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -29,11 +30,12 @@ import org.bukkit.event.player.*;
 import java.util.Arrays;
 
 public class PlayerListener implements Listener {
-    private static final KitPvP plugin = KitPvP.getInstance();
+    private static final KitPvP plugin = KitPvP.i();
     private final String[] CT_ALLOWED = {
-            "msg", "m", "t", "w", "tell", "whisper", "message", "r", "reply", "sounds", "togglesounds",
-            "ban", "tempban", "mute", "kick", "warn", "ss", "invsee", "inspect", "clearchat", "mod", "staff",
-            "modmode", "staffmode", "h", "m", "v", "vanish", "fix", "eat", "feed", "ping", "latency"
+            "msg", "m", "t", "w", "tell", "whisper", "message", "r", "reply", "sounds", "togglesounds", "ipban", "blacklist",
+            "b,", "tb", "ban", "tempban", "mute", "kick", "warn", "ss", "invsee", "inspect", "clearchat", "mod", "staff",
+            "modmode", "staffmode", "h", "m", "v", "vanish", "fix", "eat", "feed", "ping", "tp", "teleport",
+            "s", "tphere", "c", "history", "report", "request"
     };
 
     public PlayerListener() {
@@ -91,7 +93,7 @@ public class PlayerListener implements Listener {
     public void on(ItemSpawnEvent e) {
         if (e.isCancelled()) return;
 
-        Bukkit.getScheduler().runTaskLater(KitPvP.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(KitPvP.i(), ()-> {
             if (e.getEntity() != null) {
                 e.getEntity().remove();
             }
@@ -110,8 +112,8 @@ public class PlayerListener implements Listener {
                 hit.setLastFoughtWith(attacker);
                 attacker.setLastFoughtWith(hit);
 
-                hit.getCombatTimer().handle();
-                attacker.getCombatTimer().handle();
+                hit.getCombatTimer().handleAttack();
+                attacker.getCombatTimer().handleAttack();
             }
         } else if (e.getDamager() instanceof Projectile && e.getEntity() instanceof Player) {
             Projectile projectile = ((Projectile) e.getDamager());
@@ -125,8 +127,8 @@ public class PlayerListener implements Listener {
                 hit.setLastFoughtWith(attacker);
                 attacker.setLastFoughtWith(hit);
 
-                hit.getCombatTimer().handle();
-                attacker.getCombatTimer().handle();
+                hit.getCombatTimer().handleAttack();
+                attacker.getCombatTimer().handleAttack();
             }
         }
     }
@@ -174,7 +176,7 @@ public class PlayerListener implements Listener {
         if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE) && !StaffUtil.isVanished(e.getPlayer()) && !StaffUtil.isStaffMode(e.getPlayer())) {
             if (user.getCombatTimer().isTagged() && !PlayerUtil.isInSafezone(e.getPlayer())) {
                 e.getPlayer().setHealth(0.0);
-                Bukkit.broadcastMessage(plugin.getPrefix() + ChatUtil.color("&3" + e.getPlayer().getName() + " &bhas logged out in combat!"));
+                Bukkit.broadcastMessage(plugin.getPrefix() + ChatUtil.color("&c" + e.getPlayer().getName() + " has logged out in combat!"));
             }
         }
     }
@@ -194,7 +196,7 @@ public class PlayerListener implements Listener {
         int streak = StatsUtil.getStat(e.getEntity().getUniqueId().toString(), "streak");
 
         if (streak > 20) {
-            Bukkit.broadcastMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&c" + killed.getPlayer().getName() + "'s &7Killstreak of &f" +
+            Bukkit.broadcastMessage(KitPvP.i().getPrefix() + ChatUtil.color("&c" + killed.getPlayer().getName() + "'s &7Killstreak of &f" +
                     streak + " &7has been broken by &c" + killer.getPlayer().getName()) + "&7!");
         }
 
@@ -209,6 +211,10 @@ public class PlayerListener implements Listener {
             if (e.getClickedBlock().getType() == Material.ANVIL) {
                 e.setCancelled(true);
                 plugin.getGuiManager().getGUI("repair").open(e.getPlayer());
+            } else if (e.getClickedBlock().getType() == Material.ENDER_CHEST) {
+                e.setCancelled(true);
+                e.getPlayer().openInventory(e.getPlayer().getEnderChest());
+                e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CHEST_OPEN, 1.0F, 0.5F);
             }
         }
         if (e.getAction().toString().contains("RIGHT")) {

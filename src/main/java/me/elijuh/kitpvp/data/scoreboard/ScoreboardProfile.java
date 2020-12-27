@@ -28,14 +28,13 @@ public enum ScoreboardProfile {
                 String color = ChatUtil.getLevelColor(level);
                 return ImmutableList.of(
                         new Pair<>("&7&m------------", "&7&m--------"),
-                        new Pair<>("&c&lLevel &8»", " &7[" + color + level + "&7]"),
+                        new Pair<>("&cLevel &8» ", "&7[" + color + level + "&7]"),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lStats »", ""),
-                        new Pair<>("&8» &7Kills: ", "&f" + kills),
-                        new Pair<>("&8» &7Deaths: ", "&f" + deaths),
-                        new Pair<>("&8» &7Streak: ", "&f" + streak),
+                        new Pair<>("&7Kills: ", "&f" + kills),
+                        new Pair<>("&7Deaths: ", "&f" + deaths),
+                        new Pair<>("&7Streak: ", "&f" + streak),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.getInstance().getEconomy().getBalance(player))),
+                        new Pair<>("&cBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.i().getEconomy().getBalance(player))),
                         new Pair<>("", ""),
                         new Pair<>("&7&oethernal", "&7&omc.com"),
                         new Pair<>("&7&m------------", "&7&m--------")
@@ -49,16 +48,15 @@ public enum ScoreboardProfile {
                 String color = ChatUtil.getLevelColor(level);
                 return ImmutableList.of(
                         new Pair<>("&7&m------------", "&7&m--------"),
-                        new Pair<>("&c&lLevel &8»", " &7[" + color + level + "&7]"),
+                        new Pair<>("&cLevel &8» ", "&7[" + color + level + "&7]"),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lStats »", ""),
-                        new Pair<>("&8» &7Kills: ", "&f" + kills),
-                        new Pair<>("&8» &7Deaths: ", "&f" + deaths),
-                        new Pair<>("&8» &7Streak: ", "&f" + streak),
+                        new Pair<>("&7Kills: ", "&f" + kills),
+                        new Pair<>("&7Deaths: ", "&f" + deaths),
+                        new Pair<>("&7Streak: ", "&f" + streak),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.getInstance().getEconomy().getBalance(player))),
+                        new Pair<>("&cBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.i().getEconomy().getBalance(player))),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lCombat: ", "&f%kitpvp_combattag%s"),
+                        new Pair<>("&6&lCombat: ", "&f%kitpvp_combattag%s"),
                         new Pair<>("", ""),
                         new Pair<>("&7&oethernal", "&7&omc.com"),
                         new Pair<>("&7&m------------", "&7&m--------")
@@ -72,14 +70,13 @@ public enum ScoreboardProfile {
                 String color = ChatUtil.getLevelColor(level);
                 return ImmutableList.of(
                         new Pair<>("&7&m------------", "&7&m--------"),
-                        new Pair<>("&c&lLevel &8»", " &7[" + color + level + "&7]"),
+                        new Pair<>("&cLevel &8» ", "&7[" + color + level + "&7]"),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lStats »", ""),
-                        new Pair<>("&8» &7Kills: ", "&f" + kills),
-                        new Pair<>("&8» &7Deaths: ", "&f" + deaths),
-                        new Pair<>("&8» &7Streak: ", "&f" + streak),
+                        new Pair<>("&7Kills: ", "&f" + kills),
+                        new Pair<>("&7Deaths: ", "&f" + deaths),
+                        new Pair<>("&7Streak: ", "&f" + streak),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.getInstance().getEconomy().getBalance(player))),
+                        new Pair<>("&cBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.i().getEconomy().getBalance(player))),
                         new Pair<>("", ""),
                         new Pair<>("&b&lEnderpearl: ", "&f%kitpvp_pearl%s"),
                         new Pair<>("", ""),
@@ -95,16 +92,15 @@ public enum ScoreboardProfile {
                 String color = ChatUtil.getLevelColor(level);
                 return ImmutableList.of(
                         new Pair<>("&7&m------------", "&7&m--------"),
-                        new Pair<>("&c&lLevel &8»", " &7[" + color + level + "&7]"),
+                        new Pair<>("&cLevel &8» ", "&7[" + color + level + "&7]"),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lStats »", ""),
-                        new Pair<>("&8» &7Kills: ", "&f" + kills),
-                        new Pair<>("&8» &7Deaths: ", "&f" + deaths),
-                        new Pair<>("&8» &7Streak: ", "&f" + streak),
+                        new Pair<>("&7Kills: ", "&f" + kills),
+                        new Pair<>("&7Deaths: ", "&f" + deaths),
+                        new Pair<>("&7Streak: ", "&f" + streak),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.getInstance().getEconomy().getBalance(player))),
+                        new Pair<>("&cBalance &8» ", "&a$" + ChatUtil.formatMoney(KitPvP.i().getEconomy().getBalance(player))),
                         new Pair<>("", ""),
-                        new Pair<>("&c&lCombat: ", "&f%kitpvp_combattag%s"),
+                        new Pair<>("&6&lCombat: ", "&f%kitpvp_combattag%s"),
                         new Pair<>("&b&lEnderpearl: ", "&f%kitpvp_pearl%s"),
                         new Pair<>("", ""),
                         new Pair<>("&7&oethernal", "&7&omc.com"),
@@ -131,7 +127,7 @@ public enum ScoreboardProfile {
     }
 
     public static ScoreboardProfile match(Player player) {
-        User user = KitPvP.getInstance().getUserManager().getUser(player);
+        User user = KitPvP.i().getUserManager().getUser(player);
         if (StaffUtil.isStaffMode(player)) {
             return ScoreboardProfile.STAFF;
         } else if (user.getCombatTimer().isTagged() && System.currentTimeMillis() - user.getUserdata().getLastPearl() < 15000) {

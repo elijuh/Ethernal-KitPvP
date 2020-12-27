@@ -20,7 +20,7 @@ public class LeaderboardCommand extends SpigotCommand {
 
     @Override
     public void onExecute(Player p, String[] args) {
-        KitPvP.getInstance().getGuiManager().getGUI("leaderboard").open(p);
+        KitPvP.i().getGuiManager().getGUI("leaderboard").open(p);
         p.playSound(p.getLocation(), Sound.CLICK, 1.0F, 1.0F);
     }
 }

@@ -16,10 +16,10 @@ public class DatabaseManager {
 
     private void init() {
         Connection c;
-        String host = KitPvP.getInstance().getConfig().getString("mysql.host");
-        String database = KitPvP.getInstance().getConfig().getString("mysql.database");
-        String username = KitPvP.getInstance().getConfig().getString("mysql.username");
-        String password = KitPvP.getInstance().getConfig().getString("mysql.password");
+        String host = KitPvP.i().getConfig().getString("mysql.host");
+        String database = KitPvP.i().getConfig().getString("mysql.database");
+        String username = KitPvP.i().getConfig().getString("mysql.username");
+        String password = KitPvP.i().getConfig().getString("mysql.password");
         dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setJdbcUrl("jdbc:mysql://" + host + "/" + database + "?useSSL=false&autoReconnect=true");

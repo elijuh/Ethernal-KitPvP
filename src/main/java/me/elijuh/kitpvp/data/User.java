@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 @Getter @Setter
 public class User {
-    private static final KitPvP plugin = KitPvP.getInstance();
+    private static final KitPvP plugin = KitPvP.i();
     private final Player player;
     private final Userdata userdata;
     private final Scoreboard scoreboard;

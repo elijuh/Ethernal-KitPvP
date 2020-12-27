@@ -17,7 +17,7 @@ import java.util.List;
 
 @Getter
 public abstract class SpigotCommand extends Command {
-    public static final KitPvP plugin = KitPvP.getInstance();
+    public static final KitPvP plugin = KitPvP.i();
     String name, permission;
     List<String> aliases;
 

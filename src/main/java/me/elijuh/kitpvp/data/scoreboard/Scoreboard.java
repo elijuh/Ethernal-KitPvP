@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 public class Scoreboard {
-    private static final ScoreboardManager manager = KitPvP.getInstance().getServer().getScoreboardManager();
+    private static final ScoreboardManager manager = KitPvP.i().getServer().getScoreboardManager();
     private final org.bukkit.scoreboard.Scoreboard scoreboard;
     private final org.bukkit.scoreboard.Scoreboard previous;
     private final Player player;

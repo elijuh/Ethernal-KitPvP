@@ -19,6 +19,6 @@ public class ShopCommand extends SpigotCommand {
 
     @Override
     public void onExecute(Player p, String[] args) {
-        KitPvP.getInstance().getGuiManager().getGUI("shop").open(p);
+        KitPvP.i().getGuiManager().getGUI("shop").open(p);
     }
 }

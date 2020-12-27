@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatsCommand extends SpigotCommand {
-    private final KitPvP plugin = KitPvP.getInstance();
+    private final KitPvP plugin = KitPvP.i();
     private final List<String> SUBCOMMANDS = ImmutableList.of(
             "setlevel",
             "setkills",

@@ -30,13 +30,13 @@ public class LeaderboardGUI extends GUI {
     public LeaderboardGUI() {
         super("leaderboard", 3, "&4Leaderboards");
 
-        Bukkit.getScheduler().runTaskTimer(KitPvP.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskTimer(KitPvP.i(), ()-> {
             List<String> categories = ImmutableList.of("kills", "deaths", "streak");
             for (String category : categories) {
                 try {
                     List<Pair<String, Integer>> lb = getLeaderboard(category);
                     lb.clear();
-                    Statement statement = KitPvP.getInstance().getDatabaseManager().getConnection().createStatement();
+                    Statement statement = KitPvP.i().getDatabaseManager().getConnection().createStatement();
                     ResultSet result = statement.executeQuery("SELECT * FROM userdata");
                     result.findColumn(category);
 
@@ -52,8 +52,7 @@ public class LeaderboardGUI extends GUI {
                     e.printStackTrace();
                 }
             }
-            Bukkit.broadcastMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&7Leaderboards have been updated."));
-        }, 0L, 6000);
+        }, 0L, 1200L);
     }
 
     @Override

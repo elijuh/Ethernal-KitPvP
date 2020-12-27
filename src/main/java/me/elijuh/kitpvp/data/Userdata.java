@@ -1,5 +1,6 @@
 package me.elijuh.kitpvp.data;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -8,19 +9,23 @@ import me.elijuh.kitpvp.gui.impl.KitsGUI;
 import me.elijuh.kitpvp.gui.impl.PreviewGUI;
 import me.elijuh.kitpvp.kits.Kit;
 import me.elijuh.kitpvp.manager.DatabaseManager;
+import me.elijuh.kitpvp.utils.ChatUtil;
 import me.elijuh.kitpvp.utils.MathUtil;
 import me.elijuh.kitpvp.utils.StatsUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter @Setter
 public class Userdata {
-    private static final KitPvP plugin = KitPvP.getInstance();
+    private static final KitPvP plugin = KitPvP.i();
     private final DatabaseManager databaseManager;
     private final CustomConfig customConfig;
     private final User user;
@@ -39,6 +44,10 @@ public class Userdata {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        String[] files = new File(plugin.getDataFolder() + File.separator + "userdata").list();
+        if (!Lists.newArrayList(Objects.requireNonNull(files)).contains(user.getPlayer().getUniqueId().toString() + ".yml")) {
+            Bukkit.broadcastMessage(ChatUtil.color("&a&lWelcome &8⏐ &f" + user.getPlayer().getName() + " &7has joined for the first time!"));
         }
         customConfig = new CustomConfig("userdata", user.getPlayer().getUniqueId().toString() + ".yml");
         customConfig.getConfiguration().options().copyDefaults(true);

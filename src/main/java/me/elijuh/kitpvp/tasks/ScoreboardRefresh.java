@@ -11,7 +11,7 @@ public class ScoreboardRefresh extends BukkitRunnable {
     @Override
     public void run() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            User user = KitPvP.getInstance().getUserManager().getUser(p);
+            User user = KitPvP.i().getUserManager().getUser(p);
             if (user != null) {
                 if (user.getScoreboard().isEnabled()) {
                     user.getScoreboard().refresh();

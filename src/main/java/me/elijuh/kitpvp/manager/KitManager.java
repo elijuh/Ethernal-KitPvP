@@ -16,6 +16,9 @@ public class KitManager {
     public KitManager() {
         List<Class<? extends Kit>> KITS = ImmutableList.of(
                 DefaultKit.class,
+                DailyKit.class,
+                WeeklyKit.class,
+                ArcherKit.class,
                 KnightKit.class,
                 MasterKit.class,
                 KingKit.class,

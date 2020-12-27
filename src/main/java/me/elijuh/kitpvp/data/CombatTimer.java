@@ -2,11 +2,10 @@ package me.elijuh.kitpvp.data;
 
 import lombok.Getter;
 import me.elijuh.kitpvp.KitPvP;
-import me.elijuh.kitpvp.utils.ChatUtil;
 import org.bukkit.entity.Player;
 
 public class CombatTimer {
-    private static final KitPvP plugin = KitPvP.getInstance();
+    private static final KitPvP plugin = KitPvP.i();
     private final Player p;
     @Getter private int count;
 
@@ -14,18 +13,20 @@ public class CombatTimer {
         this.p = p;
     }
 
-    public void handle() {
+    public void handleAttack() {
         User user = plugin.getUserManager().getUser(p);
         if (!isTagged()) {
-            user.sendMessage(KitPvP.getInstance().getPrefix() + "&cYou have entered combat with &7" + user.getLastFoughtWith().getPlayer().getName() + "&c!");
+            user.sendMessage(KitPvP.i().getPrefix() + "&cYou have entered combat with &7" + user.getLastFoughtWith().getPlayer().getName() + "&c!");
         }
-        count = 20;
+        count = 200;
         user.getScoreboard().refresh();
     }
 
     public void end() {
         count = 0;
-        p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&aYou are no longer in combat!"));
+        User user = plugin.getUserManager().getUser(p);
+        user.sendMessage(KitPvP.i().getPrefix() + "&aYou are no longer in combat!");
+        user.getScoreboard().refresh();
     }
 
     public boolean isTagged() {

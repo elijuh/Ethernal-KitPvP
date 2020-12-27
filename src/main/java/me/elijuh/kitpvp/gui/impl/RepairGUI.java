@@ -56,23 +56,23 @@ public class RepairGUI extends GUI {
                     slot = e.getInventory().getItem(13);
                     if (canRepair(slot)) {
                         double price = getPrice(slot);
-                        if (KitPvP.getInstance().getEconomy().has(p, price)) {
+                        if (KitPvP.i().getEconomy().has(p, price)) {
                             slot.setDurability((short) 0);
-                            KitPvP.getInstance().getEconomy().withdrawPlayer(p, price);
-                            p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&aYou have successfuly repaired your item!"));
-                            p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&f&l(!) &c&l- $" + price));
+                            KitPvP.i().getEconomy().withdrawPlayer(p, price);
+                            p.sendMessage(KitPvP.i().getPrefix() + ChatUtil.color("&aYou have successfuly repaired your item!"));
+                            p.sendMessage(KitPvP.i().getPrefix() + ChatUtil.color("&f&l(!) &c&l- $" + price));
                             p.playSound(p.getLocation(), Sound.ANVIL_USE, 1.0F, 2.0F);
                         } else {
-                            p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&cYou can't afford that!"));
+                            p.sendMessage(KitPvP.i().getPrefix() + ChatUtil.color("&cYou can't afford that!"));
                             p.playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 0.6F);
                         }
                     } else {
-                        p.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&cYou can't repair that item!"));
+                        p.sendMessage(KitPvP.i().getPrefix() + ChatUtil.color("&cYou can't repair that item!"));
                         p.playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 0.6F);
                     }
                     e.setCancelled(true);
                 }
-                Bukkit.getScheduler().runTask(KitPvP.getInstance(), () -> {
+                Bukkit.getScheduler().runTask(KitPvP.i(), () -> {
                     slot = e.getInventory().getItem(13);
                     e.getInventory().setItem(31, getRepairItem());
                 });

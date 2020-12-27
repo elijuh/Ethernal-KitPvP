@@ -27,12 +27,12 @@ public class UserManager implements Listener {
             users.add(new User(p));
         }
 
-        Bukkit.getPluginManager().registerEvents(this, KitPvP.getInstance());
+        Bukkit.getPluginManager().registerEvents(this, KitPvP.i());
     }
 
     public boolean dataExists(OfflinePlayer player) {
         try {
-            PreparedStatement statement = KitPvP.getInstance().getDatabaseManager().getConnection().prepareStatement("SELECT * FROM userdata WHERE UUID=?");
+            PreparedStatement statement = KitPvP.i().getDatabaseManager().getConnection().prepareStatement("SELECT * FROM userdata WHERE UUID=?");
             statement.setString(1, player.getUniqueId().toString());
             ResultSet result = statement.executeQuery();
             return result.next();

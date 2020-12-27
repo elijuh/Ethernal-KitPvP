@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 public abstract class Kit {
-    private static final KitPvP plugin = KitPvP.getInstance();
+    private static final KitPvP plugin = KitPvP.i();
     private final String name;
     private final long cooldown;
     private final ChatColor color;
@@ -95,7 +95,7 @@ public abstract class Kit {
             }
         }
         p.playSound(p.getLocation(), Sound.ORB_PICKUP, 0.5F, 1.0F);
-        p.sendMessage(plugin.getPrefix() + ChatUtil.color("Kit &e" + ChatUtil.capitalize(getName()) + " &7has been applied."));
+        p.sendMessage(plugin.getPrefix() + ChatUtil.color("Kit &f" + ChatUtil.capitalize(getName()) + " &7has been applied."));
         if (dropped) {
             p.sendMessage(plugin.getPrefix() + ChatUtil.color("&cSome items could not fit in your inventory and have been dropped."));
         }
@@ -106,50 +106,6 @@ public abstract class Kit {
         user.getUserdata().setPreviewGUI(new PreviewGUI(this));
         PreviewGUI gui = user.getUserdata().getPreviewGUI();
         gui.open(user.getPlayer());
-    }
-
-    public int getDuraByColor() {
-        switch(color) {
-            case BLACK: {
-                return 15;
-            }
-            case DARK_BLUE: {
-                return 11;
-            }
-            case DARK_GREEN: {
-                return 13;
-            }
-            case DARK_AQUA:
-            case BLUE:
-            case AQUA: {
-                return 3;
-            }
-            case DARK_RED:
-            case RED: {
-                return 14;
-            }
-            case DARK_PURPLE: {
-                return 10;
-            }
-            case GOLD: {
-                return 1;
-            }
-            case GRAY: {
-                return 8;
-            }
-            case DARK_GRAY: {
-                return 7;
-            }
-            case LIGHT_PURPLE: {
-                return 6;
-            }
-            case GREEN: {
-                return 5;
-            }
-            default: {
-                return 0;
-            }
-        }
     }
 
     public abstract ItemStack getMenuItem();

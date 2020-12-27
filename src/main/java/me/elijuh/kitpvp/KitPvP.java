@@ -16,8 +16,12 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.logging.Level;
+
 @Getter
 public class KitPvP extends JavaPlugin {
+    private final String prefix = ChatUtil.color("&4&lKitPvP &8⏐ &7");
     private static KitPvP instance;
     private DatabaseManager databaseManager;
     private Economy economy;
@@ -26,15 +30,18 @@ public class KitPvP extends JavaPlugin {
     private UserManager userManager;
     private ScoreboardRefresh scoreboardRefresh;
     private KitPvPExansion expansion;
-    private String prefix;
 
     public void onEnable() {
         getConfig().options().copyDefaults(true);
-        getConfig().addDefault("mysql.host", "");
-        getConfig().addDefault("mysql.database", "");
-        getConfig().addDefault("mysql.username", "");
+        getConfig().addDefault("mysql.host", "localhost:3306");
+        getConfig().addDefault("mysql.database", "kitpvp");
+        getConfig().addDefault("mysql.username", "root");
         getConfig().addDefault("mysql.password", "");
         saveConfig();
+
+        if (new File(getDataFolder() + File.separator + "userdata").mkdir()) {
+            Bukkit.getLogger().log(Level.INFO, "Successfully created userdata folder.");
+        }
 
         instance = this;
         databaseManager = new DatabaseManager();
@@ -44,7 +51,6 @@ public class KitPvP extends JavaPlugin {
         userManager = new UserManager();
         scoreboardRefresh = new ScoreboardRefresh();
         expansion = new KitPvPExansion();
-        prefix = ChatUtil.color("&4&lKitPvP &8⏐ &7");
 
         expansion.register();
 
@@ -54,10 +60,14 @@ public class KitPvP extends JavaPlugin {
             return;
         }
 
-        scoreboardRefresh.runTaskTimerAsynchronously(this, 20L, 20L);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(KitPvP.getInstance(), ()->
-                userManager.getUsers().stream().filter(user -> user.getCombatTimer().isTagged())
-                        .forEach(user -> user.getCombatTimer().run()), 20L, 20L);
+        scoreboardRefresh.runTaskTimerAsynchronously(this, 2L, 2L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, ()-> {
+                for (User user : userManager.getUsers()) {
+                    if (user.getCombatTimer().isTagged()) {
+                        user.getCombatTimer().run();
+                    }
+                }
+        }, 2L, 2L);
 
         new KitCommand();
         new ShopCommand();
@@ -78,7 +88,6 @@ public class KitPvP extends JavaPlugin {
         kitManager = null;
         guiManager = null;
         scoreboardRefresh = null;
-        prefix = null;
         if (userManager != null) {
             for (User user : userManager.getUsers()) {
                 if (user.getScoreboard().isEnabled()) {
@@ -94,7 +103,7 @@ public class KitPvP extends JavaPlugin {
         }
     }
 
-    public static KitPvP getInstance() {
+    public static KitPvP i() {
         return instance;
     }
 }

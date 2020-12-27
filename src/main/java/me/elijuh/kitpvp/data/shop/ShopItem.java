@@ -30,11 +30,11 @@ public class ShopItem {
 
     public void sell(Player player) {
         if (PlayerUtil.hasRoom(player, item)) {
-            if (KitPvP.getInstance().getEconomy().has(player, price)) {
-                KitPvP.getInstance().getEconomy().withdrawPlayer(player, price);
+            if (KitPvP.i().getEconomy().has(player, price)) {
+                KitPvP.i().getEconomy().withdrawPlayer(player, price);
                 player.getInventory().addItem(item);
                 player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                player.sendMessage(KitPvP.getInstance().getPrefix() + ChatUtil.color("&7You have purchased &r" +
+                player.sendMessage(KitPvP.i().getPrefix() + ChatUtil.color("&7You have purchased &r" +
                         (display == null ? ChatUtil.capitalize(item.getType().toString().toLowerCase().replace("_", " "))
                                 : display) + " &7for &a$" + getPrice() + "&7!"));
             } else {
