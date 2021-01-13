@@ -1,4 +1,4 @@
-package me.elijuh.kitpvp.placeholders;
+package me.elijuh.kitpvp.expansions;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.elijuh.kitpvp.KitPvP;
@@ -25,6 +25,9 @@ public class KitPvPExansion extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player p, String params) {
         User user = KitPvP.i().getUserManager().getUser(p);
+        if (user == null) {
+            return "null";
+        }
         switch (params.toLowerCase()) {
             case "level": {
                 return String.valueOf(StatsUtil.getStat(p.getUniqueId().toString(), "level"));
@@ -46,7 +49,7 @@ public class KitPvPExansion extends PlaceholderExpansion {
             }
             case "pearl": {
                 long l = Math.round(150D - (System.currentTimeMillis() - user.getUserdata().getLastPearl()) / 100D);
-                return String.valueOf(l / 10.0);
+                return String.valueOf(Math.max(l, 0) / 10.0);
             }
             default: {
                 return "null";

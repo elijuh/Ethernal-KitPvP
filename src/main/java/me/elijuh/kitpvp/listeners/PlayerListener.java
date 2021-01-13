@@ -1,8 +1,11 @@
 package me.elijuh.kitpvp.listeners;
 
+import com.google.common.collect.ImmutableList;
 import me.elijuh.kitpvp.KitPvP;
+import me.elijuh.kitpvp.abilities.Ability;
 import me.elijuh.kitpvp.data.User;
 import me.elijuh.kitpvp.data.Userdata;
+import me.elijuh.kitpvp.events.PlayerDamagePlayerEvent;
 import me.elijuh.kitpvp.gui.GUI;
 import me.elijuh.kitpvp.utils.*;
 import org.bukkit.Bukkit;
@@ -27,16 +30,16 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class PlayerListener implements Listener {
-    private static final KitPvP plugin = KitPvP.i();
-    private final String[] CT_ALLOWED = {
+    private final KitPvP plugin = KitPvP.i();
+    private final List<String> allowed = ImmutableList.of(
             "msg", "m", "t", "w", "tell", "whisper", "message", "r", "reply", "sounds", "togglesounds", "ipban", "blacklist",
             "b,", "tb", "ban", "tempban", "mute", "kick", "warn", "ss", "invsee", "inspect", "clearchat", "mod", "staff",
             "modmode", "staffmode", "h", "m", "v", "vanish", "fix", "eat", "feed", "ping", "tp", "teleport",
             "s", "tphere", "c", "history", "report", "request"
-    };
+    );
 
     public PlayerListener() {
         Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -100,36 +103,42 @@ public class PlayerListener implements Listener {
         }, 300L);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onHigh(PlayerDamagePlayerEvent e) {
+        for (Ability ability : plugin.getAbilityManager().getAbilities()) {
+            ability.handleAttack(e);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void on(PlayerDamagePlayerEvent e) {
+        User hit = plugin.getUserManager().getUser(e.getDamaged());
+        User attacker = plugin.getUserManager().getUser(e.getDamager());
+
+        if (hit != null && attacker != null) {
+            hit.setLastFoughtWith(attacker);
+            attacker.setLastFoughtWith(hit);
+
+            hit.getCombatTimer().handleAttack();
+            attacker.getCombatTimer().handleAttack();
+        }
+    }
+
+    @EventHandler
     public void on(EntityDamageByEntityEvent e) {
-        if (e.isCancelled()) return;
+        Projectile projectile = ((Projectile) e.getDamager());
 
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
-            User hit = plugin.getUserManager().getUser((Player) e.getEntity());
-            User attacker = plugin.getUserManager().getUser((Player) e.getDamager());
+        if (!(projectile.getShooter() instanceof Player)) return;
 
-            if (hit != null && attacker != null) {
-                hit.setLastFoughtWith(attacker);
-                attacker.setLastFoughtWith(hit);
+        User hit = plugin.getUserManager().getUser((Player) e.getEntity());
+        User attacker = plugin.getUserManager().getUser((Player) projectile.getShooter());
 
-                hit.getCombatTimer().handleAttack();
-                attacker.getCombatTimer().handleAttack();
-            }
-        } else if (e.getDamager() instanceof Projectile && e.getEntity() instanceof Player) {
-            Projectile projectile = ((Projectile) e.getDamager());
+        if (hit != null && attacker != null) {
+            hit.setLastFoughtWith(attacker);
+            attacker.setLastFoughtWith(hit);
 
-            if (!(projectile.getShooter() instanceof Player)) return;
-
-            User hit = plugin.getUserManager().getUser((Player) e.getEntity());
-            User attacker = plugin.getUserManager().getUser((Player) projectile.getShooter());
-
-            if (hit != null && attacker != null) {
-                hit.setLastFoughtWith(attacker);
-                attacker.setLastFoughtWith(hit);
-
-                hit.getCombatTimer().handleAttack();
-                attacker.getCombatTimer().handleAttack();
-            }
+            hit.getCombatTimer().handleAttack();
+            attacker.getCombatTimer().handleAttack();
         }
     }
 
@@ -161,7 +170,7 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         if (plugin.getUserManager().getUser(p).getCombatTimer().isTagged() && !p.hasPermission("kitpvp.combattag.bypass")) {
             String command = e.getMessage().split(" ")[0].toLowerCase().substring(1);
-            if (Arrays.stream(CT_ALLOWED).noneMatch(cmd -> cmd.equalsIgnoreCase(command))) {
+            if (!allowed.contains(command)) {
                 e.setCancelled(true);
                 p.sendMessage(plugin.getPrefix() + ChatUtil.color("&cYou cannot execute that command in combat."));
             }
@@ -171,6 +180,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void on(PlayerQuitEvent e) {
         User user = plugin.getUserManager().getUser(e.getPlayer());
+        user.getScoreboard().disable();
         user.getUserdata().save();
 
         if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE) && !StaffUtil.isVanished(e.getPlayer()) && !StaffUtil.isStaffMode(e.getPlayer())) {
@@ -178,6 +188,14 @@ public class PlayerListener implements Listener {
                 e.getPlayer().setHealth(0.0);
                 Bukkit.broadcastMessage(plugin.getPrefix() + ChatUtil.color("&c" + e.getPlayer().getName() + " has logged out in combat!"));
             }
+        }
+    }
+
+    @EventHandler
+    public void on(PlayerRespawnEvent e) {
+        User user = plugin.getUserManager().getUser(e.getPlayer());
+        if (user.getCombatTimer().isTagged()) {
+            user.getCombatTimer().end();
         }
     }
 
@@ -195,18 +213,23 @@ public class PlayerListener implements Listener {
 
         int streak = StatsUtil.getStat(e.getEntity().getUniqueId().toString(), "streak");
 
-        if (streak > 20) {
+        if (streak > 10) {
             Bukkit.broadcastMessage(KitPvP.i().getPrefix() + ChatUtil.color("&c" + killed.getPlayer().getName() + "'s &7Killstreak of &f" +
-                    streak + " &7has been broken by &c" + killer.getPlayer().getName()) + "&7!");
+                    streak + " &7has been broken by &c" + killer.getPlayer().getName() + "&7!"));
         }
 
         killer.getUserdata().handleKill();
         killed.getUserdata().handleDeath();
-        killed.getCombatTimer().end();
     }
 
     @EventHandler
     public void on(PlayerInteractEvent e) {
+        for (Ability ability : plugin.getAbilityManager().getAbilities()) {
+            ability.handleInteract(e);
+        }
+
+        if (e.isCancelled()) return;
+
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (e.getClickedBlock().getType() == Material.ANVIL) {
                 e.setCancelled(true);
@@ -220,6 +243,9 @@ public class PlayerListener implements Listener {
         if (e.getAction().toString().contains("RIGHT")) {
             if (e.getPlayer().getItemInHand().getType().equals(Material.ENDER_PEARL)) {
                 User user = plugin.getUserManager().getUser(e.getPlayer());
+                if (user == null) {
+                    return;
+                }
                 if (System.currentTimeMillis() - user.getUserdata().getLastPearl() < 15000) {
                     user.sendMessage(plugin.getPrefix() + ChatUtil.color("&cYou are currently on pearl cooldown for "
                             + MathUtil.roundTo((15.0 - (System.currentTimeMillis() - user.getUserdata().getLastPearl()) / 1000.0), 1) + "s!"));

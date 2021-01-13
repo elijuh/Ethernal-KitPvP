@@ -12,29 +12,29 @@ import java.util.List;
 
 public class KingKit extends Kit {
     public KingKit() {
-        super("king", 86400, ChatColor.DARK_GREEN);
+        super("king", 86400, ChatColor.GOLD);
     }
 
     @Override
     public ItemStack getMenuItem() {
-        return new ItemBuilder(Material.INK_SACK).setDura(2).build();
+        return new ItemBuilder(Material.INK_SACK).setDura(14).build();
     }
 
     @Override
     public List<ItemStack> getItems() {
         return ImmutableList.of(
-                new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2).build(),
-                new ItemBuilder(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.DURABILITY, 1).build(),
-                new ItemBuilder(Material.GOLDEN_APPLE).setAmount(25).build(),
+
+                new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).build(),
+                new ItemBuilder(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2).addEnchant(Enchantment.DURABILITY, 1).build(),
+                new ItemBuilder(Material.GOLDEN_APPLE).setAmount(20).build(),
                 new ItemBuilder(Material.GOLDEN_APPLE).setDura(1).setAmount(1).build(),
                 new ItemBuilder(Material.POTION).setDura(16460).build(),
-                new ItemBuilder(Material.POTION).setDura(16460).build(),
                 new ItemBuilder(Material.POTION).setDura(8194).build(),
-                new ItemBuilder(Material.ARROW).setAmount(1).build(),
-                new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 2).addEnchant(Enchantment.ARROW_KNOCKBACK, 2).addEnchant(Enchantment.DURABILITY, 1).addEnchant(Enchantment.ARROW_INFINITE, 1).build()
+                new ItemBuilder(Material.ARROW).setAmount(32).build(),
+                new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1).addEnchant(Enchantment.ARROW_KNOCKBACK, 1).addEnchant(Enchantment.DURABILITY, 1).build()
         );
     }
 }

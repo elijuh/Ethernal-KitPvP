@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class KnightKit extends Kit {
-    public KnightKit() {
-        super("knight", 86400, ChatColor.BLUE);
+public class NobleKit extends Kit {
+    public NobleKit() {
+        super("noble", 86400, ChatColor.BLUE);
     }
 
     @Override

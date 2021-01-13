@@ -10,6 +10,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -44,5 +45,19 @@ public class PlayerUtil {
             }
         }
         return false;
+    }
+
+    public void applyEffect(Player p, PotionEffect effect) {
+        if (p.hasPotionEffect(effect.getType())) {
+            for (PotionEffect potionEffect : p.getActivePotionEffects()) {
+                if (potionEffect.getType() == effect.getType()) {
+                    if ((potionEffect.getDuration() < effect.getDuration() && potionEffect.getAmplifier() <= effect.getAmplifier())
+                            || potionEffect.getAmplifier() <= effect.getAmplifier()) {
+                        p.addPotionEffect(effect, true);
+                        return;
+                    }
+                }
+            }
+        } else p.addPotionEffect(effect, true);
     }
 }

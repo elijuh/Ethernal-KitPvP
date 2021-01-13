@@ -73,14 +73,12 @@ public class LeaderboardGUI extends GUI {
     }
 
     private ItemStack getItem(String category) {
-        if (!(category.equals("kills") || category.equals("deaths") || category.equals("streak"))) return null;
-
         ItemBuilder builder = new ItemBuilder();
 
         switch (category.toLowerCase()) {
             case "kills": {
                 builder.setMaterial(Material.IRON_SWORD)
-                        .setName("&6&lTop Kills")
+                        .setName("&c&lTop Kills")
                         .addEnchant(Enchantment.DAMAGE_ALL, 1)
                         .addFlag(ItemFlag.HIDE_ENCHANTS)
                         .addFlag(ItemFlag.HIDE_ATTRIBUTES);
@@ -88,19 +86,22 @@ public class LeaderboardGUI extends GUI {
             }
             case "deaths": {
                 builder.setMaterial(Material.SKULL_ITEM)
-                        .setName("&6&lTop Deaths");
+                        .setName("&c&lTop Deaths");
                 break;
             }
             case "streak": {
                 builder.setMaterial(Material.BLAZE_POWDER)
-                        .setName("&6&lTop Streaks");
+                        .setName("&c&lTop Streaks");
                 break;
+            }
+            default: {
+                return null;
             }
         }
 
         for (int i = getLeaderboard(category).size() - 1; i > Math.max(getLeaderboard(category).size() - 6, -1); i--) {
             Pair<String, Integer> pair = getLeaderboard(category).get(i);
-            builder.addLore("&6" + pair.getX() + " &7- &e" + pair.getY() + " " + (pair.getY() == 1 && !category.equals("streak")
+            builder.addLore("&7" + pair.getX() + " &8» &f" + pair.getY() + " " + (pair.getY() == 1 && !category.equals("streak")
                     ? ChatUtil.capitalize(category).substring(0, category.length() - 1) : ChatUtil.capitalize(category)));
         }
 

@@ -1,16 +1,14 @@
 package me.elijuh.kitpvp;
 
+import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.elijuh.kitpvp.commands.impl.*;
 import me.elijuh.kitpvp.data.User;
+import me.elijuh.kitpvp.expansions.KitPvPExansion;
+import me.elijuh.kitpvp.listeners.CustomEventHandler;
 import me.elijuh.kitpvp.listeners.PlayerListener;
-import me.elijuh.kitpvp.manager.DatabaseManager;
-import me.elijuh.kitpvp.manager.GUIManager;
-import me.elijuh.kitpvp.manager.KitManager;
-import me.elijuh.kitpvp.manager.UserManager;
-import me.elijuh.kitpvp.placeholders.KitPvPExansion;
-import me.elijuh.kitpvp.tasks.ScoreboardRefresh;
+import me.elijuh.kitpvp.manager.*;
 import me.elijuh.kitpvp.utils.ChatUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -25,16 +23,16 @@ public class KitPvP extends JavaPlugin {
     private static KitPvP instance;
     private DatabaseManager databaseManager;
     private Economy economy;
+    private AbilityManager abilityManager;
     private KitManager kitManager;
     private GUIManager guiManager;
     private UserManager userManager;
-    private ScoreboardRefresh scoreboardRefresh;
     private KitPvPExansion expansion;
 
     public void onEnable() {
         getConfig().options().copyDefaults(true);
         getConfig().addDefault("mysql.host", "localhost:3306");
-        getConfig().addDefault("mysql.database", "kitpvp");
+        getConfig().addDefault("mysql.database", "");
         getConfig().addDefault("mysql.username", "root");
         getConfig().addDefault("mysql.password", "");
         saveConfig();
@@ -46,10 +44,10 @@ public class KitPvP extends JavaPlugin {
         instance = this;
         databaseManager = new DatabaseManager();
         economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        abilityManager = new AbilityManager();
         kitManager = new KitManager();
         guiManager = new GUIManager();
         userManager = new UserManager();
-        scoreboardRefresh = new ScoreboardRefresh();
         expansion = new KitPvPExansion();
 
         expansion.register();
@@ -59,10 +57,14 @@ public class KitPvP extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-
-        scoreboardRefresh.runTaskTimerAsynchronously(this, 2L, 2L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, ()-> {
-                for (User user : userManager.getUsers()) {
+                for (User user : ImmutableList.copyOf(userManager.getUsers())) {
+                    if (user == null) continue;
+
+                    if (user.getScoreboard().isEnabled()) {
+                        user.getScoreboard().refresh();
+                    }
+
                     if (user.getCombatTimer().isTagged()) {
                         user.getCombatTimer().run();
                     }
@@ -73,8 +75,11 @@ public class KitPvP extends JavaPlugin {
         new ShopCommand();
         new StatsCommand();
         new LevelCommand();
+        new AbilitiesCommand();
+        new CustomEventHandler();
         new LeaderboardCommand();
         new PickupfilterCommand();
+
         new PlayerListener();
     }
 
@@ -85,9 +90,9 @@ public class KitPvP extends JavaPlugin {
             databaseManager = null;
         }
         economy = null;
+        abilityManager = null;
         kitManager = null;
         guiManager = null;
-        scoreboardRefresh = null;
         if (userManager != null) {
             for (User user : userManager.getUsers()) {
                 if (user.getScoreboard().isEnabled()) {

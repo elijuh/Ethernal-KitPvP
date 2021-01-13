@@ -80,27 +80,13 @@ public abstract class SpigotCommand extends Command {
 
             List<String> tabCompletion = onTabComplete(p, args);
             if (tabCompletion == null) {
-                if (args.length == 0) {
-                    final List<String> list = Lists.newArrayList();
-                    for (Player all : Bukkit.getOnlinePlayers()) {
-                        if (p.canSee(all)) {
-                            list.add(all.getName());
-                        }
+                List<String> list = Lists.newArrayList();
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (StringUtil.startsWithIgnoreCase(player.getName(), args[0]) && p.canSee(player)) {
+                        list.add(player.getName());
                     }
-                    return list;
                 }
-                else {
-                    final String lastWord = args[args.length - 1];
-                    final List<String> list = Lists.newArrayList();
-
-                    for (Player all : Bukkit.getOnlinePlayers()) {
-                        if (StringUtil.startsWithIgnoreCase(p.getName(), lastWord) && p.canSee(all)) {
-                            list.add(all.getName());
-                        }
-                    }
-
-                    return list;
-                }
+                return list;
             }
             return tabCompletion;
 

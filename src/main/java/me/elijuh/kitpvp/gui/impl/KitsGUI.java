@@ -33,11 +33,11 @@ public class KitsGUI extends GUI {
         getInventory().setItem(21, getKitItem(KitPvP.i().getKitManager().getKit("daily"), p));
         getInventory().setItem(22, getKitItem(KitPvP.i().getKitManager().getKit("default"), p));
         getInventory().setItem(23, getKitItem(KitPvP.i().getKitManager().getKit("weekly"), p));
-        getInventory().setItem(38, getKitItem(KitPvP.i().getKitManager().getKit("knight"), p));
-        getInventory().setItem(39, getKitItem(KitPvP.i().getKitManager().getKit("master"), p));
-        getInventory().setItem(40, getKitItem(KitPvP.i().getKitManager().getKit("king"), p));
+        getInventory().setItem(38, getKitItem(KitPvP.i().getKitManager().getKit("noble"), p));
+        getInventory().setItem(39, getKitItem(KitPvP.i().getKitManager().getKit("king"), p));
+        getInventory().setItem(40, getKitItem(KitPvP.i().getKitManager().getKit("emperor"), p));
         getInventory().setItem(41, getKitItem(KitPvP.i().getKitManager().getKit("legend"), p));
-        getInventory().setItem(42, getKitItem(KitPvP.i().getKitManager().getKit("spartan"), p));
+        getInventory().setItem(42, getKitItem(KitPvP.i().getKitManager().getKit("master"), p));
     }
 
     @Override

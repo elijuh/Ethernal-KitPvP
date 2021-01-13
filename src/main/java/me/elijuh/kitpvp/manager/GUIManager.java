@@ -3,10 +3,7 @@ package me.elijuh.kitpvp.manager;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import me.elijuh.kitpvp.gui.GUI;
-import me.elijuh.kitpvp.gui.impl.KitsGUI;
-import me.elijuh.kitpvp.gui.impl.LeaderboardGUI;
-import me.elijuh.kitpvp.gui.impl.RepairGUI;
-import me.elijuh.kitpvp.gui.impl.ShopGUI;
+import me.elijuh.kitpvp.gui.impl.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +15,7 @@ public class GUIManager {
 
     public GUIManager() {
         List<Class<? extends GUI>> GUIS = ImmutableList.of(
+                AbilitiesGUI.class,
                 KitsGUI.class,
                 LeaderboardGUI.class,
                 ShopGUI.class,

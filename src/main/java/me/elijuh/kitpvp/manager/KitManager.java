@@ -19,11 +19,11 @@ public class KitManager {
                 DailyKit.class,
                 WeeklyKit.class,
                 ArcherKit.class,
-                KnightKit.class,
-                MasterKit.class,
+                NobleKit.class,
                 KingKit.class,
+                EmperorKit.class,
                 LegendKit.class,
-                SpartanKit.class
+                MasterKit.class
         );
         for (Class<? extends Kit> kit : KITS) {
             try {
