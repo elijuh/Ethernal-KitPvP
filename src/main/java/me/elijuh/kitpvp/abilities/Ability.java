@@ -3,10 +3,10 @@ package me.elijuh.kitpvp.abilities;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.elijuh.kitpvp.events.PlayerDamagePlayerEvent;
 import me.elijuh.kitpvp.utils.ChatUtil;
 import me.elijuh.kitpvp.utils.MathUtil;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -57,10 +57,11 @@ public abstract class Ability {
         }
     }
 
-    public final void handleAttack(PlayerDamagePlayerEvent e) {
-        if (e.getWeapon() == null || !isAttack) return;
+    public final void handleAttack(EntityDamageByEntityEvent e) {
+        ItemStack weapon = ((Player) e.getDamager()).getItemInHand();
+        if (weapon == null || !isAttack) return;
 
-        if (e.getWeapon().isSimilar(item)) {
+        if (weapon.isSimilar(item)) {
             if (isOnCooldown(e.getDamager().getName())) {
                 e.getDamager().sendMessage(ChatUtil.color("&4&lAbilities &8⏐ &r" + item.getItemMeta().getDisplayName() +
                         " &cis on cooldown for &7" + getCooldown(e.getDamager().getName()) + " &cmore seconds."));
@@ -68,14 +69,14 @@ public abstract class Ability {
                 onAttack(e);
                 cooldowns.put(e.getDamager().getName(), System.currentTimeMillis());
 
-                if (e.getWeapon().getAmount() > 1) {
-                    e.getWeapon().setAmount(e.getWeapon().getAmount() - 1);
-                } else e.getDamager().setItemInHand(null);
+                if (weapon.getAmount() > 1) {
+                    weapon.setAmount(weapon.getAmount() - 1);
+                } else ((Player) e.getDamager()).setItemInHand(null);
             }
         }
     }
 
     public abstract void onInteract(PlayerInteractEvent e);
 
-    public abstract void onAttack(PlayerDamagePlayerEvent e);
+    public abstract void onAttack(EntityDamageByEntityEvent e);
 }

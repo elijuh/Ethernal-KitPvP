@@ -2,13 +2,13 @@ package me.elijuh.kitpvp.abilities.impl;
 
 import com.google.common.collect.ImmutableList;
 import me.elijuh.kitpvp.abilities.Ability;
-import me.elijuh.kitpvp.events.PlayerDamagePlayerEvent;
 import me.elijuh.kitpvp.utils.ChatUtil;
 import me.elijuh.kitpvp.utils.ItemBuilder;
 import me.elijuh.kitpvp.utils.PlayerUtil;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -45,7 +45,7 @@ public class HealthBuffAbility extends Ability {
     }
 
     @Override
-    public void onAttack(PlayerDamagePlayerEvent e) {
+    public void onAttack(EntityDamageByEntityEvent e) {
 
     }
 }

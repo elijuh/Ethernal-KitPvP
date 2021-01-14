@@ -6,7 +6,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.elijuh.kitpvp.commands.impl.*;
 import me.elijuh.kitpvp.data.User;
 import me.elijuh.kitpvp.expansions.KitPvPExansion;
-import me.elijuh.kitpvp.listeners.CustomEventHandler;
 import me.elijuh.kitpvp.listeners.PlayerListener;
 import me.elijuh.kitpvp.manager.*;
 import me.elijuh.kitpvp.utils.ChatUtil;
@@ -37,8 +36,12 @@ public class KitPvP extends JavaPlugin {
         getConfig().addDefault("mysql.password", "");
         saveConfig();
 
-        if (new File(getDataFolder() + File.separator + "userdata").mkdir()) {
-            Bukkit.getLogger().log(Level.INFO, "Successfully created userdata folder.");
+        File userdataFolder = new File(getDataFolder() + File.separator + "userdata");
+
+        if (!userdataFolder.exists()) {
+            if (userdataFolder.mkdir()) {
+                Bukkit.getLogger().log(Level.INFO, "Successfully created userdata folder.");
+            }
         }
 
         instance = this;
@@ -76,7 +79,6 @@ public class KitPvP extends JavaPlugin {
         new StatsCommand();
         new LevelCommand();
         new AbilitiesCommand();
-        new CustomEventHandler();
         new LeaderboardCommand();
         new PickupfilterCommand();
 

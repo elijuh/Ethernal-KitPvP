@@ -5,7 +5,6 @@ import me.elijuh.kitpvp.KitPvP;
 import me.elijuh.kitpvp.abilities.Ability;
 import me.elijuh.kitpvp.data.User;
 import me.elijuh.kitpvp.data.Userdata;
-import me.elijuh.kitpvp.events.PlayerDamagePlayerEvent;
 import me.elijuh.kitpvp.gui.GUI;
 import me.elijuh.kitpvp.utils.*;
 import org.bukkit.Bukkit;
@@ -103,42 +102,38 @@ public class PlayerListener implements Listener {
         }, 300L);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onHigh(PlayerDamagePlayerEvent e) {
-        for (Ability ability : plugin.getAbilityManager().getAbilities()) {
-            ability.handleAttack(e);
-        }
-    }
-
     @EventHandler(ignoreCancelled = true)
-    public void on(PlayerDamagePlayerEvent e) {
-        User hit = plugin.getUserManager().getUser(e.getDamaged());
-        User attacker = plugin.getUserManager().getUser(e.getDamager());
-
-        if (hit != null && attacker != null) {
-            hit.setLastFoughtWith(attacker);
-            attacker.setLastFoughtWith(hit);
-
-            hit.getCombatTimer().handleAttack();
-            attacker.getCombatTimer().handleAttack();
-        }
-    }
-
-    @EventHandler
     public void on(EntityDamageByEntityEvent e) {
-        Projectile projectile = ((Projectile) e.getDamager());
+        if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
+            for (Ability ability : plugin.getAbilityManager().getAbilities()) {
+                ability.handleAttack(e);
+            }
 
-        if (!(projectile.getShooter() instanceof Player)) return;
+            User hit = plugin.getUserManager().getUser(e.getEntity().getName());
+            User attacker = plugin.getUserManager().getUser(e.getDamager().getName());
 
-        User hit = plugin.getUserManager().getUser((Player) e.getEntity());
-        User attacker = plugin.getUserManager().getUser((Player) projectile.getShooter());
+            if (hit != null && attacker != null) {
+                hit.setLastFoughtWith(attacker);
+                attacker.setLastFoughtWith(hit);
 
-        if (hit != null && attacker != null) {
-            hit.setLastFoughtWith(attacker);
-            attacker.setLastFoughtWith(hit);
+                hit.getCombatTimer().handleAttack();
+                attacker.getCombatTimer().handleAttack();
+            }
+        } else if (e.getDamager() instanceof Projectile) {
+            Projectile projectile = (Projectile) e.getDamager();
 
-            hit.getCombatTimer().handleAttack();
-            attacker.getCombatTimer().handleAttack();
+            if (!(projectile.getShooter() instanceof Player)) return;
+
+            User hit = plugin.getUserManager().getUser((Player) e.getEntity());
+            User attacker = plugin.getUserManager().getUser((Player) projectile.getShooter());
+
+            if (hit != null && attacker != null) {
+                hit.setLastFoughtWith(attacker);
+                attacker.setLastFoughtWith(hit);
+
+                hit.getCombatTimer().handleAttack();
+                attacker.getCombatTimer().handleAttack();
+            }
         }
     }
 
